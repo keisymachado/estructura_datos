@@ -36,6 +36,7 @@ class ListaEnlazadaTareas:
         if self.cabeza is None:
             self.cabeza = nuevo_nodo
         else:
+          
             nodo_actual = self.cabeza
             nodo_anterior = None
 
@@ -99,7 +100,7 @@ class ListaEnlazadaTareas:
             if nodo_actual.tarea.descripcion == descripcion:
                 nodo_actual.tarea.completada = True
                 print(f"Tarea '{descripcion}' marcada como completada.")
-                self.eliminar_tarea(descripcion) 
+                self.eliminar_tarea(descripcion)  
                 return
             nodo_actual = nodo_actual.next
         print(f"Tarea '{descripcion}' no encontrada.")
@@ -109,16 +110,16 @@ class ListaEnlazadaTareas:
 sistema_tareas = ListaEnlazadaTareas()
 
 sistema_tareas.agregar_tarea("Hacer la compra", 1, "2025-03-15")
-sistema_tareas.agregar_tarea("Enviar tarea de estructura de datos",2,"2025-03-14")
+sistema_tareas.agregar_tarea("Enviar tarea de estructura de datos",1,"2025-03-14")
 sistema_tareas.agregar_tarea("Llamar al médico", 3, "2025-03-20")
-sistema_tareas.agregar_tarea("Enviar informe", 4, "2025-03-05")
+sistema_tareas.agregar_tarea("Enviar informe", 2, "2025-03-05")
 
 
-print("\n Todas las tareas ")
+print("\nTodas las tareas ")
 sistema_tareas.mostrar_tareas()
 
 
-print("\nBuscar tarea 'Estudiar para el examen'")
+print("\n Buscar tarea 'Estudiar para el examen'")
 sistema_tareas.buscar_tarea("Estudiar para el examen")
 
 
@@ -126,12 +127,12 @@ print("\n Marcar tarea 'Enviar informe' como completada ")
 sistema_tareas.marcar_completada("Enviar informe")
 
 
-print("\n Todas las tareas después de completar 'Enviar informe' ")
+print("\n Todas las tareas después de completar 'Enviar informe'")
 sistema_tareas.mostrar_tareas()
 
 print("\n Eliminar tarea 'Llamar al médico' ")
 sistema_tareas.eliminar_tarea("Llamar al médico")
 
 
-print("\nTodas las tareas después de eliminar 'Llamar al médico' ")
+print("\n Todas las tareas después de eliminar 'Llamar al médico'")
 sistema_tareas.mostrar_tareas()
