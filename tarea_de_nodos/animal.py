@@ -60,9 +60,9 @@ class ListaEnlazada:
 
 zoologico = ListaEnlazada()
 
-zoologico.agregar_animal("Leo", 5, "León")
-zoologico.agregar_animal("Paco", 3, "Pavo")
-zoologico.agregar_animal("Mimi", 2, "Gato")
+zoologico.agregar_animal("key", 5, "León")
+zoologico.agregar_animal("davi", 3, "Pavo")
+zoologico.agregar_animal("karla", 2, "Gato")
 
 
 print(" animales de manera iterativa:")
