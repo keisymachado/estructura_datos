@@ -53,7 +53,7 @@ class ListaEnlazada:
             nodo = self.cabeza
         if nodo is not None:
             print(nodo.animal)
-            if nodo.next is not None:  # Verificar si hay un siguiente nodo
+            if nodo.next is not None:  
                 self.mostrar_animales_recursivo(nodo.next)
 
 
