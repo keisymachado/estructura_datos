@@ -1,6 +1,4 @@
 from typing import Optional
-from datetime import datetime
-
 
 class Tarea:
     def __init__(self, descripcion: str, prioridad: int, fecha_vencimiento: str) -> None:
