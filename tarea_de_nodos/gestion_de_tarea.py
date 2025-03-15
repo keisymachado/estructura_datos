@@ -6,7 +6,7 @@ class Tarea:
     def __init__(self, descripcion: str, prioridad: int, fecha_vencimiento: str) -> None:
         self.descripcion = descripcion
         self.prioridad = prioridad
-        self.fecha_vencimiento = datetime.strptime(fecha_vencimiento, "%Y-%m-%d")
+        self.fecha_vencimiento = fecha_vencimiento
         self.completada = False
 
     def __str__(self) -> str:
@@ -14,7 +14,7 @@ class Tarea:
         return (
             f"Descripción: {self.descripcion}, "
             f"Prioridad: {self.prioridad}, "
-            f"Vencimiento: {self.fecha_vencimiento.strftime('%Y-%m-%d')}, "
+            f"Vencimiento: {self.fecha_vencimiento}, "
             f"Estado: {estado}"
         )
 
@@ -117,10 +117,6 @@ sistema_tareas.agregar_tarea("Enviar informe", 2, "2025-03-05")
 
 print("\nTodas las tareas ")
 sistema_tareas.mostrar_tareas()
-
-
-print("\n Buscar tarea 'Estudiar para el examen'")
-sistema_tareas.buscar_tarea("Estudiar para el examen")
 
 
 print("\n Marcar tarea 'Enviar informe' como completada ")
