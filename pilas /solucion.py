@@ -1,47 +1,43 @@
+from typing import Optional, Tuple
+
 class Pila:
-    def __init__(self):
-        self.dato = []
+    def __init__(self) -> None:
+        self.datos: list[tuple[str, int]] = []
 
-    def isEmpty(self):
-        return len(self.dato) == 0
+    def is_empty(self) -> bool:
+        return len(self.datos) == 0
 
-    def push(self, elemento):
-        self.dato.append(elemento)
+    def push(self, elemento: tuple[str, int]) -> None:
+        self.datos.append(elemento)
 
-    def pop(self):
-        if not self.isEmpty():
-            return self.dato.pop()
-        else:
-            return None
+    def pop(self) ->str:
+        if not self.is_empty():
+            return self.datos.pop()
+        return None
 
-    def peek(self):
-        if not self.isEmpty():
-            return self.dato[-1]
-        else:
-            return None
+    def peek(self) -> str:
+        if not self.is_empty():
+            return self.datos[-1]
+        return None
 
-
-def verificar_balanceo(expresion: str) -> tuple:
-    """Verifica el balanceo de símbolos en una expresión."""
+def verificar_balanceo(expresion: str) -> bool:
+  
     pila = Pila()
     simbolos_abiertos = {'(', '{', '['}
     simbolos_cerrados = {')', '}', ']'}
     parejas = {'(': ')', '{': '}', '[': ']'}
 
-    for i, caracter in enumerate(expresion):
+    for indice, caracter in enumerate(expresion):
         if caracter in simbolos_abiertos:
-            pila.push((caracter, i)) 
+            pila.push((caracter, indice))
         elif caracter in simbolos_cerrados:
-            if pila.isEmpty() or parejas[pila.peek()[0]] != caracter:
-                return False, i  
+            if pila.is_empty() or parejas.get(pila.peek()[0]) != caracter:
+                return False, indice
             pila.pop()
 
-    if pila.isEmpty():
-        return True, -1 
-    else:
-        return False, pila.peek()[1] 
+    return (True, -1) if pila.is_empty() else (False, pila.peek()[1])
 
-
+# Ejemplo de uso
 expresion = "{[a + b] * (c - d)}"
 balanceado, posicion = verificar_balanceo(expresion)
 
