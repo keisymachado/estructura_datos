@@ -25,6 +25,13 @@ class Pila:
     def peek(self)->tuple:
         return self.dato[self.tope - 1] if not self.isEmpty() else None
 
+laberinto = [
+    ['S', 'O', 'X', 'X', 'O'],
+    ['X', 'O', 'O', 'X', 'O'],
+    ['X', 'X', 'O', 'O', 'X'],
+    ['O', 'O', 'X', 'O', 'E'],
+    ['X', 'O', 'O', 'O', 'X']
+]
 
 def encontrar_inicio(laberinto:list)->tuple:
     for fila in range(len(laberinto)):
@@ -72,13 +79,6 @@ def resolver_laberinto(laberinto: list)->str:
     return "No hay camino posible"
 
 
-laberinto = [
-    ['S', 'O', 'X', 'X', 'O'],
-    ['X', 'O', 'O', 'X', 'O'],
-    ['X', 'X', 'O', 'O', 'X'],
-    ['O', 'O', 'X', 'O', 'E'],
-    ['X', 'O', 'O', 'O', 'X']
-]
 
 solucion = resolver_laberinto(laberinto)
 if isinstance(solucion, list):
