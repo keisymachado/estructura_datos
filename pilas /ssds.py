@@ -1,20 +1,20 @@
 class Pila:
-    def __init__(self, size):
+    def __init__(self, size:int)->None:
         self.dato = [None] * size
         self.size = size
         self.tope = 0
 
-    def isEmpty(self):
+    def isEmpty(self)->bool:
         return self.tope == 0
 
-    def push(self, elemento):
+    def push(self, elemento)->None:
         if self.tope < self.size:
             self.dato[self.tope] = elemento
             self.tope += 1
         else:
             print(" Pila llena")
 
-    def pop(self):
+    def pop(self)->tuple:
         if not self.isEmpty():
             self.tope -= 1
             return self.dato[self.tope]
@@ -22,11 +22,11 @@ class Pila:
             print(" Pila vacía")
             return None
 
-    def peek(self):
+    def peek(self)->tuple:
         return self.dato[self.tope - 1] if not self.isEmpty() else None
 
 
-def encontrar_inicio(laberinto):
+def encontrar_inicio(laberinto:list)->tuple:
     for fila in range(len(laberinto)):
         for columna in range(len(laberinto[fila])):
             if laberinto[fila][columna] == 'S':
@@ -34,7 +34,7 @@ def encontrar_inicio(laberinto):
     return None
 
 
-def resolver_laberinto(laberinto):
+def resolver_laberinto(laberinto: list)->str:
     inicio = encontrar_inicio(laberinto)
     if not inicio:
         return "No hay punto de inicio (S)"
