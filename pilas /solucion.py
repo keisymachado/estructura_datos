@@ -37,7 +37,7 @@ def verificar_balanceo(expresion: str) -> bool:
 
     return (True, -1) if pila.is_empty() else (False, pila.peek()[1])
 
-# Ejemplo de uso
+
 expresion = "{[a + b] * (c - d)}"
 balanceado, posicion = verificar_balanceo(expresion)
 
