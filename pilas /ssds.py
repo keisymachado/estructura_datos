@@ -6,7 +6,7 @@ class Pila:
 
     def isEmpty(self)->bool:
         return self.tope == 0
-
+ 
     def push(self, elemento)->None:
         if self.tope < self.size:
             self.dato[self.tope] = elemento

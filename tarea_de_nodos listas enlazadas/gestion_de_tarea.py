@@ -5,7 +5,7 @@ class Tarea:
         self.descripcion = descripcion
         self.prioridad = prioridad
         self.fecha_vencimiento = fecha_vencimiento
-        self.completada = False
+        self.completada = False  #dato 
 
     def __str__(self) -> str:
         estado = "Completada" if self.completada else "Pendiente"
@@ -14,14 +14,16 @@ class Tarea:
             f"Prioridad: {self.prioridad}, "
             f"Vencimiento: {self.fecha_vencimiento}, "
             f"Estado: {estado}"
+            #f ayuda a imprimir parametros 
         )
+    
 
 
 class Node:
     def __init__(self, tarea: Tarea):
         self.tarea = tarea
-        self.next: Optional["Node"] = None
-
+        self.next: Optional["Node"] = None #el siguiente puede no llegar a existir
+       #puntero
 
 class ListaEnlazadaTareas:
     def __init__(self) -> None:
@@ -36,17 +38,17 @@ class ListaEnlazadaTareas:
         else:
           
             nodo_actual = self.cabeza
-            nodo_anterior = None
+            nodo_anterior = None #aun no se inicia a recorrer la lista
 
             while nodo_actual is not None and (
-                nodo_actual.tarea.prioridad < prioridad
+                nodo_actual.tarea.prioridad < prioridad 
                 or (
                     nodo_actual.tarea.prioridad == prioridad
                     and nodo_actual.tarea.fecha_vencimiento <= nueva_tarea.fecha_vencimiento
                 )
             ):
                 nodo_anterior = nodo_actual
-                nodo_actual = nodo_actual.next
+                nodo_actual = nodo_actual.next #nuevo en la lista
 
             if nodo_anterior is None:
                 nuevo_nodo.next = self.cabeza
@@ -58,7 +60,6 @@ class ListaEnlazadaTareas:
     def eliminar_tarea(self, descripcion: str) -> None:
         nodo_actual = self.cabeza
         nodo_anterior = None
-
         while nodo_actual is not None:
             if nodo_actual.tarea.descripcion == descripcion:
                 if nodo_anterior is None:
@@ -85,12 +86,13 @@ class ListaEnlazadaTareas:
     def buscar_tarea(self, descripcion: str) -> None:
         nodo_actual = self.cabeza
         while nodo_actual is not None:
-            if nodo_actual.tarea.descripcion == descripcion:
+            if nodo_actual.tarea.descripcion == descripcion: #si la descripcion es igual a la puesta tarea encontrada 
                 print("Tarea encontrada:")
                 print(nodo_actual.tarea)
                 return
             nodo_actual = nodo_actual.next
-        print(f"Tarea '{descripcion}' no encontrada.")
+        print(f"Tarea '{descripcion}' no encontrada.") 
+        #break
 
     def marcar_completada(self, descripcion: str) -> None:
         nodo_actual = self.cabeza
@@ -112,8 +114,8 @@ sistema_tareas.agregar_tarea("Enviar tarea de estructura de datos",1,"2025-03-14
 sistema_tareas.agregar_tarea("Llamar al médico", 3, "2025-03-20")
 sistema_tareas.agregar_tarea("Enviar informe", 2, "2025-03-05")
 
-
-print("\nTodas las tareas ")
+#salto de linea 
+print("\n Todas las tareas ")
 sistema_tareas.mostrar_tareas()
 
 

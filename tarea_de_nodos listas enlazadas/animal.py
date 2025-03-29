@@ -1,4 +1,5 @@
 from typing import Optional
+#especifico o none
 
 class Animal:
     def __init__(self, nombre: str, edad: int, tipo: str) -> None:
@@ -8,22 +9,24 @@ class Animal:
 
     def __str__(self) -> str:
         return f"{self.nombre} ({self.tipo}), {self.edad} años"
+#representacion del objeto a cadena de texto 
 
 
-
-class Node:
+class Node:      #el contructor resibe el objeto animal 
     def __init__(self, animal: Animal):
         self.animal = animal
-        self.next: Optional["Node"] = None
-
+        self.next: Optional["Node"] = None #el siguiente puede no llegar a existir
+        #puntero al siguiente nodo inicialmente nada 
+#nodo  para la lista enlazada 
 
 class ListaEnlazada:
     def __init__(self) -> None:
         self.cabeza: Optional[Node] = None
-
+        #constructor                    #parametros
     def agregar_animal(self, nombre: str, edad: int, tipo: str) -> None:
         nuevo_animal = Animal(nombre, edad, tipo)
         nuevo_nodo = Node(nuevo_animal)
+#nuevo objeto animal y nodo que lo contiene 
 
         if self.cabeza is None:
             self.cabeza = nuevo_nodo
