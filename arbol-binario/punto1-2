@@ -1,6 +1,6 @@
 from typing import Optional
 
-# Clase Node - Representa cada elemento individual en el árbol binario
+# Clase Node  Representa cada elemento individual en el árbol binario
 # Cada nodo contiene un valor y referencias a sus nodos hijos izquierdo y derecho
 class Node:
     data: int
@@ -16,7 +16,7 @@ class Node:
         self.left = left
         self.right = right
 
-# Clase BinaryTree - Implementa un Árbol Binario de Búsqueda (BST)
+# Clase BinaryTree - Implementa un Árbol Binario de Búsqueda (BST ose  Binary Search Tree))
 # Los BST mantienen los valores ordenados donde:
 # - Todos los valores izquierdos son menores que el padre
 # - Todos los valores derechos son mayores o iguales que el padre
@@ -28,10 +28,10 @@ class BinaryTree:
         self.root = root
 
     def insert(self, data: int) -> None:
-        """
-        Inserta un nuevo valor en el árbol manteniendo el orden BST
         
-        """
+        #Inserta un nuevo valor en el árbol manteniendo el orden BST
+        
+    
         if self.root is None:
             # Si el árbol está vacío, creamos el nodo raíz
             self.root = Node(data)
@@ -80,7 +80,7 @@ class BinaryTree:
 
         """
         if node is None:
-            # Caso base: llegamos a un nodo vacío
+            # llegamos a un nodo vacío
             return False
         if data == node.data:
             # Encontramos el valor

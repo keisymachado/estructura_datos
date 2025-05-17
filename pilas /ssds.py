@@ -9,6 +9,7 @@ class Pila:
  
     def push(self, elemento)->None:
         if self.tope < self.size:
+            #indicador y apuntador
             self.dato[self.tope] = elemento
             self.tope += 1
         else:
@@ -50,20 +51,22 @@ def resolver_laberinto(laberinto: list)->str:
     columnas = len(laberinto[0])
     pila = Pila(filas * columnas)
     visitados = set()
+                #conjunto 
 
     desplazamiento_fila = [1, 0, 0, -1]  
     desplazamiento_columna = [0, -1, 1, 0]
 
     pila.push((inicio[0], inicio[1], []))  
-
+    #corrdenadas de inicip
     while not pila.isEmpty():
         fila, columna, camino = pila.pop()
         nuevo_camino = camino + [(fila, columna)]
-
+        #nuevo camino con la posicion actual
         if laberinto[fila][columna] == 'E':
             return nuevo_camino  
 
         visitados.add((fila, columna))
+        #marrca la celda como visitada 
 
         for i in range(4):
             nueva_fila = fila + desplazamiento_fila[i]
