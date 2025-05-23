@@ -1,49 +1,56 @@
 from typing import Optional, Tuple
 
+class Nodo:
+    def __init__(self, valor: tuple[str, int], siguiente: Optional['Nodo'] = None):
+        self.valor = valor
+        self.siguiente = siguiente
+
 class Pila:
     def __init__(self) -> None:
-        self.datos: list[tuple[str, int]] = []
+        self.tope: Optional[Nodo] = None
 
     def is_empty(self) -> bool:
-        return len(self.datos) == 0  # true si la lista esta vacia 
+        return self.tope is None
 
     def push(self, elemento: tuple[str, int]) -> None:
-        self.datos.append(elemento)
+        nuevo_nodo = Nodo(elemento, self.tope)
+        self.tope = nuevo_nodo
 
-    def pop(self) ->str:
+    def pop(self) -> Optional[tuple[str, int]]:
         if not self.is_empty():
-            return self.datos.pop()
+            valor = self.tope.valor
+            self.tope = self.tope.siguiente
+            return valor
         return None
 
-    def peek(self) -> str:
+    def peek(self) -> Optional[tuple[str, int]]:
         if not self.is_empty():
-            return self.datos[-1]
+            return self.tope.valor
         return None
 
-def verificar_balanceo(expresion: str) -> bool:
-                
-  
+def verificar_balanceo(expresion: str) -> Tuple[bool, int]:
     pila = Pila()
     simbolos_abiertos = {'(', '{', '['}
     simbolos_cerrados = {')', '}', ']'}
     parejas = {'(': ')', '{': '}', '[': ']'}
 
     for indice, caracter in enumerate(expresion):
-                        #Devuelve pares
         if caracter in simbolos_abiertos:
             pila.push((caracter, indice))
-            #Si el caracter es de apertura, lo agrega a la pila con su posición.<
         elif caracter in simbolos_cerrados:
-            if pila.is_empty() or parejas.get(pila.peek()[0]) != caracter:
-                 #miramos el ultimo simbolo de apertura y buscamos en parejas cual es su cierre
-                 #El método .get() busca una clave en el diccionario y devuelve su valor asociado
+            if pila.is_empty():
+                return False, indice
+            tope = pila.peek()
+            if tope is None or parejas.get(tope[0]) != caracter:
                 return False, indice
             pila.pop()
 
-    return (True, -1) if pila.is_empty() else (False, pila.peek()[1])
-    #si se cerraron bien retorna true y si no pus false
+    if pila.is_empty():
+        return True, -1
+    else:
+        tope = pila.peek()
+        return False, tope[1] if tope is not None else -1
 
-#prueba
 expresion = "{[a + b] * (c - d)}"
 balanceado, posicion = verificar_balanceo(expresion)
 
