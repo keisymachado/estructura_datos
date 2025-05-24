@@ -34,7 +34,7 @@ class GrafoAjedrez:
                         nf, nc = fila + df, col + dc
                         if 0 <= nf < 8 and 0 <= nc < 8:
                             self.grafo[(fila, col)].append((nf, nc))
-
+                             #liberia de direcciones ya que las f y c tineen lugareas vecinos donde las piezas pueden moverse 
     def inicializar_piezas(self):
         piezas_negras = ["♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜"]
         piezas_blancas = ["♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"]
@@ -50,43 +50,43 @@ class GrafoAjedrez:
         return pieza in ["♟", "♜", "♞", "♝", "♛", "♚"]
 
     def obtener_movimientos_validos(self, fila, col):
-        movimientos = []
+        movimientos = [] #guardar movimientos validos
         pieza = self.tablero[fila][col].pieza
         if not pieza or not self.es_pieza_aliada(pieza):
             return []
 
         if pieza == "♙":
-            if fila > 0 and not self.tablero[fila-1][col].pieza:
+            if fila > 0 and not self.tablero[fila-1][col].pieza:  
                 movimientos.append((fila-1, col))
                 if fila == 6 and not self.tablero[fila-2][col].pieza:
                     movimientos.append((fila-2, col))
-            for dc in [-1, 1]:
-                if 0 <= col+dc < 8 and fila > 0:
-                    target = self.tablero[fila-1][col+dc].pieza
-                    if target and not self.es_pieza_aliada(target):
+            for dc in [-1, 1]: #calculc coolunma destino
+                if 0 <= col+dc < 8 and fila > 0:#limites del tableo y el peon no puede capturar mas si ya lleglo a 0
+                    target = self.tablero[fila-1][col+dc].pieza #para capturar 
+                    if target and not self.es_pieza_aliada(target): # target es igual a nada si no se cumple la condicion 
                         movimientos.append((fila-1, col+dc))
 
         elif pieza == "♟":
-            if fila < 7 and not self.tablero[fila+1][col].pieza:
+            if fila < 7 and not self.tablero[fila+1][col].pieza: #que no este en la ultima fila
                 movimientos.append((fila+1, col))
                 if fila == 1 and not self.tablero[fila+2][col].pieza:
                     movimientos.append((fila+2, col))
             for dc in [-1, 1]:
-                if 0 <= col+dc < 8 and fila < 7:
+                if 0 <= col+dc < 8 and fila < 7:#el peon no puede capturar si esta en la ultima fila 
                     target = self.tablero[fila+1][col+dc].pieza
                     if target and not self.es_pieza_aliada(target):
                         movimientos.append((fila+1, col+dc))
 
         elif pieza in ["♖", "♜"]:
             for df, dc in [(1,0), (-1,0), (0,1), (0,-1)]:
-                nf, nc = fila + df, col + dc
-                while 0 <= nf < 8 and 0 <= nc < 8:
+                nf, nc = fila + df, col + dc  #d=cambio
+                while 0 <= nf < 8 and 0 <= nc < 8: #dentro del tablerp
                     if not self.tablero[nf][nc].pieza:
                         movimientos.append((nf, nc))
                     elif not self.es_pieza_aliada(self.tablero[nf][nc].pieza):
                         movimientos.append((nf, nc))
-                        break
-                    else:
+                        break #no puede saltar piezas
+                    else:  #pieza aliada
                         break
                     nf += df
                     nc += dc
@@ -124,7 +124,7 @@ class GrafoAjedrez:
                 nf, nc = fila + df, col + dc
                 if 0 <= nf < 8 and 0 <= nc < 8:
                     if not self.tablero[nf][nc].pieza or not self.es_pieza_aliada(self.tablero[nf][nc].pieza):
-                        movimientos.append((nf, nc))
+                        movimientos.append((nf, nc)) # if en lugar de while porque es una casilla
 
         elif pieza in ["♘", "♞"]:
             for df, dc in [(2,1), (2,-1), (-2,1), (-2,-1), (1,2), (1,-2), (-1,2), (-1,-2)]:
@@ -151,11 +151,11 @@ class GrafoAjedrez:
         pieza = self.tablero[f_orig][c_orig].pieza
         self.tablero[f_orig][c_orig].pieza = None
         self.tablero[f_dest][c_dest].pieza = pieza
-        self.turno_blancas = not self.turno_blancas
+        self.turno_blancas = not self.turno_blancas #si era turno de las blancas true y si no false y viseversa
         self.historial_movimientos.append((f_orig, c_orig, f_dest, c_dest))
         
         if self.es_ahogado():
-            self.ahogado = True
+            self.ahogado = True  #llama ahogado pa ver si hay mas  movimientos
 
     def obtener_estado_juego(self):
         valores = {"♙":1, "♟":1, "♖":5, "♜":5, "♘":3, "♞":3, 
@@ -167,17 +167,23 @@ class GrafoAjedrez:
         movilidad_blancas = sum(len(self.obtener_movimientos_validos(fila, col)) 
                              for fila in range(8) for col in range(8) 
                              if self.tablero[fila][col].pieza and self.tablero[fila][col].pieza in ["♙", "♖", "♘", "♗", "♕", "♔"])
-        
+                             #solo casillas con piezas blancass
+          
+
         movilidad_negras = sum(len(self.obtener_movimientos_validos(fila, col)) 
                            for fila in range(8) for col in range(8) 
                            if self.tablero[fila][col].pieza and self.tablero[fila][col].pieza in ["♟", "♜", "♞", "♝", "♛", "♚"])
         
+
+        #en el ajedrez el centro es muy importante por lo que tenemos que definirlo aqui tamabioe+
+
         centro = [(3,3), (3,4), (4,3), (4,4)]
         control_blancas = sum(1 for (f,c) in centro 
-                          if any((f,c) in self.obtener_movimientos_validos(fila, col) 
-                               for fila in range(8) for col in range(8) 
+                          if any((f,c) in self.obtener_movimientos_validos(fila, col)  #comprueba si alguna pieza blanaca esta aqui
+                               for fila in range(8) for col in range(8)  
                                if self.tablero[fila][col].pieza and self.tablero[fila][col].pieza in ["♙", "♖", "♘", "♗", "♕", "♔"]))
-        
+                                 #filtra 
+
         control_negras = sum(1 for (f,c) in centro 
                            if any((f,c) in self.obtener_movimientos_validos(fila, col) 
                                 for fila in range(8) for col in range(8) 
@@ -195,15 +201,19 @@ class GrafoAjedrez:
                                    if sum(1 for fila in range(8) 
                                    if self.tablero[fila][col].pieza == "♟") > 1)
         
-        return np.array([
-            blancas, negras, 
-            movilidad_blancas, movilidad_negras,
-            control_blancas, control_negras,
+        return np.array([      #contenedor de datos numerico s
+            blancas, negras,  #suma de puntos 
+            movilidad_blancas, movilidad_negras, #movimientos legales 
+            control_blancas, control_negras, #control central 
             rey_blanco_seguro, rey_negro_seguro,
             peones_doblados_blancas, peones_doblados_negras,
             len(self.historial_movimientos)
         ])
+  
+  #el ramdon forest procesa este array  asi  tipo array de estado, procesamiento,
+  #prediccion de modelo y finalmente desicion del modimiento 
 
+   
 class InterfazAjedrez:
     def __init__(self, root):
         self.root = root
@@ -222,12 +232,13 @@ class InterfazAjedrez:
             "selected": "#3498db"
         }
         
-        self.juego = GrafoAjedrez()
-        self.botones = [[None for _ in range(8)] for _ in range(8)]
-        self.casilla_seleccionada = None
+        self.juego = GrafoAjedrez()  #crea el tablero y la logica del ajedrez
+        self.botones = [[None for _ in range(8)] for _ in range(8)] 
+        self.casilla_seleccionada = None #swe huarada la casilla deleccionada por q¿q 
         self.vs_ia = False
         self.modelo = self.entrenar_modelo_ml()
         
+        #root ventana principal 
         self.main_frame = tk.Frame(root, bg=self.style["bg_dark"])
         self.main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
         
@@ -273,7 +284,7 @@ class InterfazAjedrez:
     def generar_datos_entrenamiento(self, num_muestras=1000):
         X = []
         y = []
-        
+        #eqiuoñibrada
         for _ in range(num_muestras // 3):
             blancas = random.randint(30, 39)
             negras = random.randint(30, 39)
@@ -292,6 +303,7 @@ class InterfazAjedrez:
             y.append(1 if (blancas + movilidad_b/10 + control_b*2 + seguridad_b*3) > 
                     (negras + movilidad_n/10 + control_n*2 + seguridad_n*3) else 0)
         
+        #ventaja blacas 33%
         for _ in range(num_muestras // 3):
             blancas = random.randint(35, 45)
             negras = random.randint(20, 30)
@@ -309,6 +321,7 @@ class InterfazAjedrez:
                      seguridad_b, seguridad_n, peones_dob_b, peones_dob_n, movimientos])
             y.append(1)
         
+        #blancas negras
         for _ in range(num_muestras // 3):
             blancas = random.randint(20, 30)
             negras = random.randint(35, 45)
@@ -324,29 +337,35 @@ class InterfazAjedrez:
             
             X.append([blancas, negras, movilidad_b, movilidad_n, control_b, control_n, 
                      seguridad_b, seguridad_n, peones_dob_b, peones_dob_n, movimientos])
-            y.append(0)
+            y.append(0)  #0 y 1 por ser entrenamientos opuestos
         
         return np.array(X), np.array(y)
-
+#Para que la IA vea muchas variaciones diferentes y aprenda reglas generales (no solo memorice ejemplos).
+   
+   #cerebro de la ia
     def entrenar_modelo_ml(self):
         X, y = self.generar_datos_entrenamiento(3000)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-        
+        #divide daros 80% entreamiento y 2o prueba 
         pipeline = Pipeline([
-            ('scaler', StandardScaler()),
+            ('scaler', StandardScaler()), #nrmaliza los datos # Normaliza los datos (resta media, divide por desviación Para que todas las características (ej: "material" y "movilidad") tengan la misma importancia aunque usen escalas diferentes.
+
+
             ('model', RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42))
-        ])
+        ])                                  #100 arbjkane de desisidiodon limita ka profunfifad  
         
-        pipeline.fit(X_train, y_train)
-        scores = cross_val_score(pipeline, X, y, cv=5)
+        pipeline.fit(X_train, y_train)  #2,400 ejemplos de posiciones de ajedrez (80% de los 3,000 datos)
+
+            # Cada ejemplo tiene 11 características (material, movilidad, control centro, etc.)
+        scores = cross_val_score(pipeline, X, y, cv=5)# evitar memorizacion 
         print(f"Precisión validación cruzada: {scores.mean():.2f} (+/- {scores.std():.2f})")
-        test_score = pipeline.score(X_test, y_test)
+        test_score = pipeline.score(X_test, y_test) #datos de prueba
         print(f"Precisión en conjunto de prueba: {test_score:.2f}")
         
         return pipeline
 
     def seleccionar_modo(self):
-        self.mode_window = tk.Toplevel(self.root)
+        self.mode_window = tk.Toplevel(self.root) #vemtana secundaria
         self.mode_window.title("Seleccionar modo de juego")
         self.mode_window.geometry("400x200")
         self.mode_window.configure(bg=self.style["bg_dark"])
@@ -405,7 +424,7 @@ class InterfazAjedrez:
                 self.actualizar_turno()
                 
                 if self.juego.es_ahogado():
-                    self.mostrar_mensaje("¡Ahogado! Empate")
+                    self.mostrar_mensaje("maloooo perdiste")
                     self.juego.ahogado = True
                 
                 if self.vs_ia and not self.juego.turno_blancas and not self.juego.ahogado:
