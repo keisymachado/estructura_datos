@@ -335,12 +335,12 @@ class InterfazAjedrez:
             peones_dob_n = random.randint(0, 1)
             movimientos = random.randint(10, 40)
             
-            X.append([blancas, negras, movilidad_b, movilidad_n, control_b, control_n, 
-                     seguridad_b, seguridad_n, peones_dob_b, peones_dob_n, movimientos])
-            y.append(0)  #0 y 1 por ser entrenamientos opuestos
+            X.append([blancas, negras, movilidad_b, movilidad_n, control_b, control_n,  #x ejercicios de ajedrez 
+                     seguridad_b, seguridad_n, peones_dob_b, peones_dob_n, movimientos]) #y quien tiene la ventaja
+            y.append(0)  #0 y 1 por ser entrenamientos opuestos 1 para blancas y 0 para negras 
         
         return np.array(X), np.array(y)
-#Para que la IA vea muchas variaciones diferentes y aprenda reglas generales (no solo memorice ejemplos).
+#traduce a la ia y ace que sea mas rapido numpy
    
    #cerebro de la ia
     def entrenar_modelo_ml(self):
@@ -354,11 +354,11 @@ class InterfazAjedrez:
             ('model', RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42))
         ])                                  #100 arbjkane de desisidiodon limita ka profunfifad  
         
-        pipeline.fit(X_train, y_train)  #2,400 ejemplos de posiciones de ajedrez (80% de los 3,000 datos)
+        pipeline.fit(X_train, y_train)  
 
-            # Cada ejemplo tiene 11 características (material, movilidad, control centro, etc.)
-        scores = cross_val_score(pipeline, X, y, cv=5)# evitar memorizacion 
-        print(f"Precisión validación cruzada: {scores.mean():.2f} (+/- {scores.std():.2f})")
+                                                
+        scores = cross_val_score(pipeline, X, y, cv=5)# evitar memorizacion           # dos desimales
+        print(f"Precisión validación cruzada: {scores.mean():.2f} (+/- {scores.std():.2f})") ##promedio  de esos datos y calcular la deviacion estandar  
         test_score = pipeline.score(X_test, y_test) #datos de prueba
         print(f"Precisión en conjunto de prueba: {test_score:.2f}")
         
@@ -487,7 +487,6 @@ class InterfazAjedrez:
             self.juego.mover_pieza(f1, c1, f2, c2)
             self.actualizar_tablero()
             self.actualizar_turno()
-            
             if self.juego.es_ahogado():
                 self.mostrar_mensaje("¡Ahogado! Empate")
                 self.juego.ahogado = True
