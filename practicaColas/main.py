@@ -73,7 +73,7 @@ def listar_turnos_cola():
 
     # Ordenamos la lista por prioridad (True primero)
     queue.sort(key=lambda x: x["priority_attention"], reverse=True)
-
+                #ordena la x osea los datos del ticket
     return {"mensaje": "Lista de todos los turnos en cola ordenados por prioridad", "datos_turnos": queue if queue else "No hay turnos en cola"}
 # Otros endpoints existentes
 @app.get("/")

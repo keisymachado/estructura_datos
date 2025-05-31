@@ -351,15 +351,15 @@ class InterfazAjedrez:
             ('scaler', StandardScaler()), #nrmaliza los datos # Normaliza los datos (resta media, divide por desviación Para que todas las características (ej: "material" y "movilidad") tengan la misma importancia aunque usen escalas diferentes.
 
 
-            ('model', RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42))
+            ('model', RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)) #fijador de aleatoriedad"
         ])                                  #100 arbjkane de desisidiodon limita ka profunfifad  
         
-        pipeline.fit(X_train, y_train)  
+        pipeline.fit(X_train, y_train)   # Entrena solo con los datos de entrenamiento
 
                                                 
-        scores = cross_val_score(pipeline, X, y, cv=5)# evitar memorizacion           # dos desimales
+        scores = cross_val_score(pipeline, X, y, cv=5)# evitar memorizacion          
         print(f"Precisión validación cruzada: {scores.mean():.2f} (+/- {scores.std():.2f})") ##promedio  de esos datos y calcular la deviacion estandar  
-        test_score = pipeline.score(X_test, y_test) #datos de prueba
+        test_score = pipeline.score(X_test, y_test) #evaluacion 
         print(f"Precisión en conjunto de prueba: {test_score:.2f}")
         
         return pipeline
@@ -383,7 +383,7 @@ class InterfazAjedrez:
         tk.Button(btn_frame, text="Jugador vs IA", font=self.style["font_labels"],
                  bg="#2980b9", fg="white", activebackground="#3498db", activeforeground="white",
                  command=lambda: self.iniciar_juego(True)).pack(side=tk.LEFT, padx=10, pady=5, ipadx=10, ipady=5)
-        
+            #retraza el boton hasta qie se haga click
         self.mode_window.grab_set()
 
     def iniciar_juego(self, ia):
@@ -465,12 +465,12 @@ class InterfazAjedrez:
         for fila in range(8):
             for col in range(8):
                 pieza = self.juego.tablero[fila][col].pieza
-                if pieza and self.juego.es_pieza_aliada(pieza):
+                if pieza and self.juego.es_pieza_aliada(pieza): #recorre todo el tablero hasta encontrar una pieza aliada
                     movimientos = self.juego.obtener_movimientos_validos(fila, col)
                     for f2, c2 in movimientos:
-                        copia = self.simular_movimiento(fila, col, f2, c2)
-                        estado = copia.obtener_estado_juego()
-                        valor = self.modelo.predict_proba([estado])[0][1]
+                        copia = self.simular_movimiento(fila, col, f2, c2) #mira cada movimiento posible 
+                        estado = copia.obtener_estado_juego() 
+                        valor = self.modelo.predict_proba([estado])[0][1] #Usa un modelo de ML para predecir la probabilidad de ganar (índice [1] para la clase positiva)
                         
                         pieza_capturada = self.juego.tablero[f2][c2].pieza
                         if pieza_capturada:
